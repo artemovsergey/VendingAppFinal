@@ -6,6 +6,10 @@ namespace VendingApp.API.Data;
 public class VendingAppContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<VendingMachine> VendingMachines { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Sale> Sales { get; set; }
+    public DbSet<Maintenance> Maintenances { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
