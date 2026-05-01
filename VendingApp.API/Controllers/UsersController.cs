@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using VendingApp.API.Data;
 using VendingApp.API.Dto;
 using VendingApp.API.Models;
+using VendingApp.API.Response;
 
 namespace VendingApp.API.Controllers;
 
@@ -10,7 +11,7 @@ namespace VendingApp.API.Controllers;
 public class UsersController(VendingAppContext db) : ControllerBase
 {
     [HttpPost]
-    public ActionResult<User> CreateUser(RegisterDto registerDto)
+    public ActionResult<Result<User>> CreateUser(RegisterDto registerDto)
     {
         var user = new User()
         {
@@ -18,16 +19,17 @@ public class UsersController(VendingAppContext db) : ControllerBase
             HashPassword = BCrypt.Net.BCrypt.HashPassword(registerDto.Password, workFactor: 12),
         };
 
-        try
-        {
-            db.Users.Add(user);
-            db.SaveChanges();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"{ex.InnerException!.Message}");
-        }
+        db.Users.Add(user);
+        db.SaveChanges();
 
-        return Created("", user);
+        return Created("", Result<User>.Success(user));
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<User> GetUserById(int id)
+    {
+        var user = db.Users.Where(u => u.Id == id).FirstOrDefault();
+
+        return user != null ? Ok() : throw new Exception("Сообщение от конструктоора Exception");
     }
 }

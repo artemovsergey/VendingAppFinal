@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using VendingApp.API.Data;
+using VendingApp.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,10 @@ builder.Services.AddDbContext<VendingAppContext>();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddEndpointsApiExplorer();
+
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
 
