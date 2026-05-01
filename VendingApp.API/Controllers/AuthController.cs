@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using VendingApp.API.Data;
 using VendingApp.API.Dto;
 using VendingApp.API.Mappers;
@@ -11,6 +12,7 @@ namespace VendingApp.API.Controllers;
 public class AuthController(VendingAppContext db) : ControllerBase
 {
     [HttpPost("login")]
+    [SwaggerOperation(Summary = "Авторизация")]
     public ActionResult<User> Login(LoginDto loginDto)
     {
         var user = db.Users.Where(u => u.Login == loginDto.Login).FirstOrDefault();

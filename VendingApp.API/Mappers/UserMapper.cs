@@ -7,6 +7,11 @@ public static class UserMapper
 {
     public static UserDto ToDto(this User user)
     {
-        return new UserDto() { Id = user.Id, Login = user.Login };
+        return new UserDto()
+        {
+            Id = user.Id,
+            Login = user.Login,
+            Role = user.Role,
+        };
     }
 }

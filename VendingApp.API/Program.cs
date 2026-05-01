@@ -3,8 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using VendingApp.API.Data;
 using VendingApp.API.Middlewares;
+using VendingApp.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +28,11 @@ builder
     });
 builder.Services.AddAuthorization();
 builder.Services.AddDbContext<VendingAppContext>();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(o =>
+{
+    o.SwaggerDoc("v1", new OpenApiInfo());
+    o.EnableAnnotations();
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -57,14 +63,5 @@ app.MapGet(
         return Results.Ok(new JwtSecurityTokenHandler().WriteToken(token));
     }
 );
-
-app.MapGet(
-        "test",
-        () =>
-        {
-            return Results.Ok("test ...");
-        }
-    )
-    .RequireAuthorization();
 
 app.Run();

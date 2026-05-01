@@ -1,6 +1,8 @@
+using VendingApp.API.Controllers;
+
 namespace VendingApp.API.Models;
 
-public class Maintenance
+public class Maintenance : TEntity
 {
     public int Id { get; set; }
 

@@ -76,6 +76,14 @@ app.MapGet(
 - создать базовый контроллер CRUD через generic
 - копировать на основе одного
 - с учетом, что контроллеры могут быть не простыми, а с моделями или dto, то generic могут не очень помочь, потому что будут простыми
+- но можно реализовать generic контроллер в день -1
+
+# Проблемы с датой DateTime при выводе из PostgresSQL
+
+- заменить DateTime.Now на DateTime.Utc.Now
+- проверить что в базе тип данные date time with time zone
+- статичекий конструктор в контексте со старым поведением
+
 
 ### Настройка Swagger
 
@@ -86,6 +94,21 @@ app.MapGet(
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.7" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
   </ItemGroup>
+```
+
+## Аннотации Swagger
+
+```Csharp
+builder.Services.AddSwaggerGen(o =>
+{
+    o.SwaggerDoc("v1", new OpenApiInfo());
+    o.EnableAnnotations();
+});
+```
+- после 10 точке трудно ориентироваться, поэтому обязательно подписывать
+
+```Csharp
+[SwaggerOperation(Summary = $"Получение списка")]
 ```
 
 
