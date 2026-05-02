@@ -7,6 +7,13 @@
   <!-- Хеширование -->
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+  </ItemGroup>
+  <!-- Динамическая сортировка -->
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.2" />
+  </ItemGroup>
+  <!-- Экспорт -->
+  <ItemGroup>
     <PackageReference Include="Magicodes.IE.Core" Version="2.8.2" />
     <PackageReference Include="Magicodes.IE.Csv" Version="2.8.2" />
     <PackageReference Include="Magicodes.IE.Html" Version="2.8.2" />

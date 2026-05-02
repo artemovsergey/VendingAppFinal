@@ -11,8 +11,6 @@ public class VendingAppContext : DbContext
     public DbSet<Sale> Sales { get; set; }
     public DbSet<Maintenance> Maintenances { get; set; }
 
-    static VendingAppContext() { }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(

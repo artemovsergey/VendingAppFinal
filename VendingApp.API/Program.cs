@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using VendingApp.API.Data;
 using VendingApp.API.Middlewares;
-using VendingApp.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

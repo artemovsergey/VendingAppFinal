@@ -1,5 +1,3 @@
-using System.Collections;
-using Magicodes.ExporterAndImporter.Csv;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using VendingApp.API.Data;

@@ -1,8 +1,10 @@
+using System.Linq.Dynamic.Core;
 using Magicodes.ExporterAndImporter.Csv;
 using Magicodes.ExporterAndImporter.Html;
 using Magicodes.ExporterAndImporter.Pdf;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using VendingApp.API.Configurations;
 using VendingApp.API.Data;
 using VendingApp.API.Dto;
 using VendingApp.API.Mappers;
@@ -20,6 +22,37 @@ public class UsersController(VendingAppContext db) : ControllerBase
     public ActionResult<List<User>> GetUsers()
     {
         return Ok(db.Users.Select(u => u.ToDto()));
+    }
+
+    [HttpGet("option")]
+    [SwaggerOperation(
+        Summary = "Получение списка пользователей c поиском,фильтром,сортировкой,пагинацией"
+    )]
+    public ActionResult<ApiResult<UserDto>> GetUsers([FromQuery] Option opt)
+    {
+        var users = db.Users.AsQueryable();
+
+        if (opt.Search != string.Empty)
+            users = users.Where(u => u.Login.Contains(opt.Search!));
+
+        if (opt.Filter != string.Empty)
+            users = users.Where(u => u.Login == opt.Filter);
+
+        if (opt.Sort != string.Empty && opt.SortDirection != string.Empty)
+            users = users.OrderBy($"{opt.Sort!} {opt.SortDirection}");
+
+        users = users.Skip((opt.PageNumber - 1) * opt.PageSize).Take(opt.PageSize);
+
+        return Ok(
+            new ApiResult<UserDto>()
+            {
+                Success = true,
+                PageNumber = opt.PageNumber,
+                PageSize = opt.PageSize,
+                Count = db.Users.Count(),
+                Data = users.Select(u => u.ToDto()).ToList(),
+            }
+        );
     }
 
     [HttpPost]
