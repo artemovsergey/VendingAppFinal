@@ -3,10 +3,12 @@ using Magicodes.ExporterAndImporter.Csv;
 using Magicodes.ExporterAndImporter.Html;
 using Magicodes.ExporterAndImporter.Pdf;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Swashbuckle.AspNetCore.Annotations;
 using VendingApp.API.Configurations;
 using VendingApp.API.Data;
 using VendingApp.API.Dto;
+using VendingApp.API.Hubs;
 using VendingApp.API.Mappers;
 using VendingApp.API.Models;
 using VendingApp.API.Response;
@@ -15,12 +17,13 @@ namespace VendingApp.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController(VendingAppContext db) : ControllerBase
+public class UsersController(VendingAppContext db, IHubContext<VendingHub> hub) : ControllerBase
 {
     [HttpGet]
     [SwaggerOperation(Summary = "Получение списка пользователей")]
-    public ActionResult<List<User>> GetUsers()
+    public async Task<ActionResult<List<User>>> GetUsers()
     {
+        await hub.Clients.All.SendAsync("MachineUpdated", db.Users.ToList());
         return Ok(db.Users.Select(u => u.ToDto()));
     }
 

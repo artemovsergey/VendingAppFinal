@@ -10,6 +10,6 @@ public class Option
 
     public string? Search { get; set; } = string.Empty;
     public string? Filter { get; set; } = string.Empty;
-    public string? Sort { get; set; }
-    public string? SortDirection { get; set; } = "asc";
+    public required string? Sort { get; set; }
+    public required string? SortDirection { get; set; } = "asc";
 }
