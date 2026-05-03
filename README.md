@@ -2,8 +2,8 @@
 
 - настройка `Hot-Reload` при сохранениии для flutter
 - проверка в `File -> Autosave`
-- настроить горячие клавиши `Shift + Space` на лампочку
 - расширение CSharpier и использовать форматирование по Shift + Alt + F
+- настроить горячие клавиши `Shift + Space` на лампочку
 - установка расширений для .NET и Flutter
 - могут слетать расширения и не показываться ошибки, следить за этим
 
@@ -51,7 +51,7 @@ app.MapGet(
     async (AppDbContext db) =>
     {
 
-        var data = await File.ReadAllTextAsync("resources/products/products.json");
+        var data = await File.ReadAllTextAsync("Resources/products.json");
         var products = JsonSerializer.Deserialize<Product[]>(data, options);
         Console.WriteLine(products?.Count());
 
@@ -67,6 +67,18 @@ app.MapGet(
     }
 );
 ```
+- обязательно настроить копирование в сборку в `csproj`
+
+```xml
+  <!-- Копирование в сборку bin -->
+  <ItemGroup>
+    <None Update="Resources\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+```
+
+
 
 ## Импорт данных из Excel в Dbeaver
 
